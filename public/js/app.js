@@ -94620,8 +94620,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Patrick Hogg\Desktop\vuetest\src\js\app.js */"./src/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Patrick Hogg\Desktop\vuetest\src\sass\app.scss */"./src/sass/app.scss");
+__webpack_require__(/*! C:\Development\vue-playground\src\js\app.js */"./src/js/app.js");
+module.exports = __webpack_require__(/*! C:\Development\vue-playground\src\sass\app.scss */"./src/sass/app.scss");
 
 
 /***/ })
