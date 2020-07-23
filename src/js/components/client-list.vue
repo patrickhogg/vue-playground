@@ -2,11 +2,12 @@
   <div>
   <breadcrumb :items="breadcrumb"/>
   <h1>Clients</h1>
+  <router-link to="/client/new">New Client</router-link>
   <hr />
    <b-pagination 
       :total-rows="totalItems" 
       :per-page="perPage"
-       v-model="currentPage" aria-controls="client-list"/>
+       v-model="c_page" aria-controls="client-list"/>
 
     <b-table
       id="client-list"
@@ -16,13 +17,13 @@
       :sort-desc.sync="c_sort_desc"
       responsive="sm"
       :per-page="perPage"
-      :current-page="currentPage"
+      :current-page="c_page"
       :small="true"
       :striped="true"
 
     >
       <template v-slot:cell(options)="data">
-            <b-button variant="primary" size="sm">View</b-button>
+            <router-link :to="{ path: '/client/'+data.item.id, params: { id: 123 }}">Edit</router-link>
       </template>
 
     </b-table>
@@ -61,8 +62,7 @@
             active: true
           }
         ],
-        perPage:15,
-        currentPage:1,
+        perPage:20,        
         totalItems:0,
         isBusy:true,
         keyword:"test",
@@ -72,13 +72,25 @@
     },
    
     computed:{
+        c_page:{
+          get:function(){
+             return this.$route.query.page || 1
+          },
+          set:function(v){
+            this.query={ sort_by:this.c_sort_by,sort_desc:this.c_sort_desc,page:v  };         
+            console.log("store");
+            console.log(this.query);
+            this.$router.push({ query: this.query })
+           
+          }
+        },
         c_sort_by:{
           get:function(){
              return this.$route.query.sort_by || "first_name"
           },
           set:function(v){
-            this.query={ sort_by:v,sort_desc:this.c_sort_desc  };         
-            console.log("store");
+            this.query={ sort_by:v,sort_desc:this.c_sort_desc,page:this.c_page  };         
+          
             this.$router.push({ query: this.query })
            
           }
@@ -97,7 +109,7 @@
             } else {
               v="false"
             }
-            this.query={ sort_by:this.c_sort_by,sort_desc:v }; 
+            this.query={ sort_by:this.c_sort_by,sort_desc:v,page:this.c_page  }; 
                     
             this.$router.push({ query: this.query })
          
@@ -106,17 +118,16 @@
     },
     methods: {
       myProvider(ctx) {
-        //console.log(ctx);
-        
-        this.isBusy = true;
-        const promise = axios.get('http://192.168.10.10/api/client?page=' + ctx.currentPage + '&size=' + ctx.perPage + '&sort_by=' + ctx.sortBy + "&sort_desc="+ ctx.sortDesc)
+    
+       
+        const promise = axios.get(this.$root.api+'client?page=' + ctx.currentPage + '&size=' + ctx.perPage + '&sort_by=' + ctx.sortBy + "&sort_desc="+ ctx.sortDesc)
        
         // Must return a promise that resolves to an array of items
         return promise.then(data => {
           // Pluck the array of items off our axios response
           const items = data.data.data;
           this.totalItems=data.data.meta.total;
-          this.isBusy = false;
+          
           // Must return an array of items or an empty array if an error occurred
           return items || []
         })
