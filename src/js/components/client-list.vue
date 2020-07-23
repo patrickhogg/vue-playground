@@ -1,6 +1,7 @@
 <template>
   <div>
-  <h1>{{c_sort_by}}</h1>
+  <breadcrumb :items="breadcrumb"/>
+  <h1>Clients</h1>
   <hr />
    <b-pagination 
       :total-rows="totalItems" 
@@ -45,6 +46,20 @@
           { key: 'company_name', sortable: true },
           'options',
           
+        ],
+        breadcrumb: [
+          {
+            text: 'Admin',
+            href: '#'
+          },
+          {
+            text: 'Manage',
+            href: '#'
+          },
+          {
+            text: 'Library',
+            active: true
+          }
         ],
         perPage:15,
         currentPage:1,

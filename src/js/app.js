@@ -7,6 +7,8 @@ Vue.use(BootstrapVue)
 Vue.component('top-nav', require('./components/top-nav').default);
 Vue.component('left-nav', require('./components/left-nav').default);
 
+Vue.component('breadcrumb', require('./components/parts/breadcrumb').default);
+
 const Dashboard = { template: '<h1>Dashboard</h1>' }
 
 const JobSite = { template: '<div>JobSite</div>' }
